@@ -129,8 +129,8 @@
                                 <div class="chat-bubble chat-model">
                                     <p class="fw-semibold text-primary text-primary-dsa mb-1">Coach</p>
                                     <div class="markdown-content">
-                                        <p>Hello! I am your Coding Instructor. I specialize in Data Structures and Algorithms (DSA). Please ask me any questions related to DSA, and I will explain them simply and clearly.</p>
-                                        <p>If you ask a question outside of DSA, I will politely let you know I can't assist. How can I help you today?</p>
+                                        <p>Hello! I am your Coding Instructor. Please ask me any questions related to programming, and I will explain them simply and clearly.</p>
+                                    
                                     </div>
                                 </div>
                             </div>
@@ -385,7 +385,7 @@
 
         async function fetchWithRetry(userText, maxRetries = 3) {
             const apiUrl = `${API_BASE_URL}${MODEL_NAME}:generateContent?key=${API_KEY}`;
-            const systemPrompt = "You are a specialized Coding Instructor. Your ONLY function is to answer questions related to Data Structures and Algorithms (DSA) clearly and simply. For any question that is NOT DSA-related (e.g., general knowledge, personal opinions, coding language syntax, etc.), you MUST politely decline by responding with: 'I am sorry, but I can only provide assistance with Data Structures and Algorithms questions.'";
+            const systemPrompt = "You are a specialized Coding Instructor. Your ONLY function is to answer questions related to Data Structures and Algorithms (DSA) and programming concepts like sql, html, react, java , springboot, microservices also all trendy technology like ai, genai clearly and simply. For any question that is NOT related to technology mentioned then  (e.g., general knowledge, personal opinions, general studies, social awerness etc.), you MUST politely decline with heartfull / lovely message";
             
             const payload = {
                 // Pass the entire history for conversation context
