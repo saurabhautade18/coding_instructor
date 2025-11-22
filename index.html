@@ -149,7 +149,7 @@
                         <!-- Input Area -->
                         <div class="p-3 border-top">
                             <form id="chatForm" class="d-flex">
-                                <input type="text" id="userInput" class="form-control me-2" placeholder="Ask a DSA question..." autocomplete="off" required>
+                                <input type="text" id="userInput" class="form-control me-2" placeholder="Ask me any Tech question..." autocomplete="on" required>
                                 <button type="submit" id="sendButton" class="btn btn-primary" title="Send Message">
                                     <i class="bi bi-send-fill"></i>
                                 </button>
@@ -385,7 +385,7 @@
 
         async function fetchWithRetry(userText, maxRetries = 3) {
             const apiUrl = `${API_BASE_URL}${MODEL_NAME}:generateContent?key=${API_KEY}`;
-            const systemPrompt = "You are a specialized Coding Instructor. Your ONLY function is to answer questions related to Data Structures and Algorithms (DSA) and programming concepts like sql, html, react, java , springboot, microservices also all trendy technology like ai, genai clearly and simply. For any question that is NOT related to technology mentioned then  (e.g., general knowledge, personal opinions, general studies, social awerness etc.), you MUST politely decline with heartfull / lovely message";
+            const systemPrompt = "You are a specialized Coding Instructor. Your should only  answer questions related to Data Structures and Algorithms (DSA) and programming concepts like sql, html, react, java , springboot, microservices also all trendy technology like ai, genai clearly and simply. For any question that is NOT related to  technology mentioned then you MUST politely decline with heartfull / lovely message give short and sweet message rather than whole message i told you. just seet and client eye catching msg only. give short answer more";
             
             const payload = {
                 // Pass the entire history for conversation context
