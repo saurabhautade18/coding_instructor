@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coding Instructor</title>
-    <!-- Bootstrap CSS CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     
     <style>
@@ -109,7 +107,6 @@
 <body data-bs-theme="light">
 
     <div class="container d-flex flex-column min-vh-100 p-0">
-        <!-- Header -->
         <header class="d-flex justify-content-between align-items-center p-3 bg-white border-bottom shadow-sm fixed-top">
             <h1 class="h4 mb-0 text-primary">Coding Instructor</h1>
             <button id="themeToggle" class="btn btn-outline-secondary btn-sm" title="Toggle Light/Dark Mode">
@@ -117,14 +114,11 @@
             </button>
         </header>
 
-        <!-- Main Chat Area -->
         <main class="flex-grow-1 p-3" style="padding-top: 70px !important;">
             <div class="row justify-content-center">
                 <div class="col-lg-8 col-md-10 col-12">
                     <div class="chat-container rounded-3 d-flex flex-column">
-                        <!-- Messages Container (The chat history display) -->
                         <div id="messagesContainer" class="chat-window flex-grow-1">
-                            <!-- Initial Greeting Message -->
                             <div class="d-flex justify-content-start mb-3">
                                 <div class="chat-bubble chat-model">
                                     <p class="fw-semibold text-primary text-primary-dsa mb-1">Coach</p>
@@ -134,19 +128,14 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- Messages will be appended here -->
-                      
-                        
-                        </div>
+                            </div>
 
-                               <!-- Loading Indicator -->
-                        <div id="loadingIndicator" class="p-2 text-center text-muted small" style="display: none;">
+                                    <div id="loadingIndicator" class="p-2 text-center text-muted small" style="display: none;">
                             <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
                             Coach is typing...
                         </div>
 
 
-                        <!-- Input Area -->
                         <div class="p-3 border-top">
                             <form id="chatForm" class="d-flex">
                                 <input type="text" id="userInput" class="form-control me-2" placeholder="Ask me any Tech question..." autocomplete="on" required>
@@ -161,17 +150,17 @@
         </main>
     </div>
 
-    <!-- Bootstrap JS CDN (Needed for components/interactions) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eE7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eE7N6jIeHz" crossorigin="anonymous"></script>
 
     <script>
-        // Global variables
+        require('dotenv').config();
+       
         const API_BASE_URL = 'https://generativelanguage.googleapis.com/v1beta/models/';
         const MODEL_NAME = 'gemini-2.5-flash-preview-09-2025';
         
         // Canvas will inject the API key securely at runtime.
         // For local use (VS Code), replace the empty string with your actual API key.
-        const API_KEY = "AIzaSyBcIVUlspy5DgyOWRHKGQd4n8Ipq4NaMbg"; 
+        const API_KEY = process.env.API_KEY; 
 
         // DOM elements
         const chatForm = document.getElementById('chatForm');
@@ -360,7 +349,9 @@
                     }
 
                     // 2. Display model response and update history
-                    displayMessage('model', modelText, sources);
+                    // Note: We are ignoring the 'sources' variable in the current displayMessage implementation,
+                    // but keeping it here for API completeness.
+                    displayMessage('model', modelText, sources); 
                     chatHistory.push({ role: "model", parts: [{ text: modelText }] });
 
                 } else {
@@ -385,7 +376,7 @@
 
         async function fetchWithRetry(userText, maxRetries = 3) {
             const apiUrl = `${API_BASE_URL}${MODEL_NAME}:generateContent?key=${API_KEY}`;
-            const systemPrompt = "You are a specialized Coding Instructor. Your should only  answer questions related to Data Structures and Algorithms (DSA) and programming concepts like sql, html, react, java , springboot, microservices also all trendy technology like ai, genai clearly and simply. For any question that is NOT related to  technology mentioned then you MUST politely decline with heartfull / lovely message give short and sweet message rather than whole message i told you. just seet and client eye catching msg only. give short answer more";
+            const systemPrompt = "You are a specialized Coding Instructor. Your should only answer questions related to Data Structures and Algorithms (DSA) and programming concepts like sql, html, react, java , springboot, microservices also all trendy technology like ai, genai clearly and simply. For any question that is NOT related to technology mentioned then you MUST politely decline with heartfull / lovely message give short and sweet message rather than whole message i told you. just seet and client eye catching msg only. give short answer more";
             
             const payload = {
                 // Pass the entire history for conversation context
@@ -395,9 +386,9 @@
                 tools: [{ "google_search": {} }], 
                 
                 // Enforce the 'Coding Instructor' persona and constraints
-                systemInstruction: {
-                    parts: [{ text: systemPrompt }]
-                },
+                config: {
+                    systemInstruction: systemPrompt
+                }
             };
 
             for (let attempt = 0; attempt < maxRetries; attempt++) {
@@ -408,10 +399,13 @@
                         body: JSON.stringify(payload)
                     });
 
-                   
+                    
 
                     if (!response.ok) {
-                        throw new Error(`API returned status ${response.status}: ${response.statusText}`);
+                        // Attempt to read error message from body if possible
+                        const errorBody = await response.json().catch(() => ({}));
+                        const errorMessage = errorBody.error?.message || response.statusText;
+                        throw new Error(`API returned status ${response.status}: ${errorMessage}`);
                     }
 
                     return response; // Successful response

@@ -1,0 +1,22 @@
+{
+  "name": "coding-instructor-chat",
+  "version": "1.0.0",
+  "description": "A simple chat application for a coding instructor using Gemini API.",
+  "main": "index.html",
+  "scripts": {
+    "start": "lite-server"
+  },
+  "keywords": [
+    "gemini",
+    "ai",
+    "web"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "lite-server": "^2.6.1"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3"
+  }
+}
